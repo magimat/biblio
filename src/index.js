@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import EleveMain from './components/EleveMain'
+import ProfMain from './components/ProfMain'
+import MainMenu from './components/MainMenu'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const routing = (
+    <Router>
+      <div>
+        <Route exact path="/" component={MainMenu} />
+        <Route path="/eleve" component={EleveMain} />
+        <Route path="/prof" component={ProfMain} />
+      </div>
+    </Router>
+  )
+
+ReactDOM.render(routing, document.getElementById('root'))
