@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "teams-recon-bot-executor",
+    "name": "teams-recon-bot",
+    "region": "ca-central-1"
+  },
+  "api": {
+    "id": "xibqnnjq14",
+    "module": "users"
+  }
+}
