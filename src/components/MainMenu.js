@@ -52,11 +52,18 @@ class EleveScanner extends Component {
 
     _onDetected(result) {
 
-      //Quagga.stop();
+      Quagga.stop();
       
       document.getElementById('annuler').click();
-      alert(result.codeResult.code);
-
+      //alert(result.codeResult.code);
+      fetch('https://swapi.co/api/people/1')
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data)
+            })
+            .catch(console.log)
+      //alert(result.codeResult.code);
+      //Quagga.start();
     };
 
 
