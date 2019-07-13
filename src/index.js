@@ -12,6 +12,7 @@ const routing = (
         <Route exact path="/" component={MainMenu} />
         <Route path="/eleve" component={EleveMain} />
         <Route path="/prof" component={ProfMain} />
+
       </div>
     </Router>
   )

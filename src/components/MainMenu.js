@@ -1,65 +1,118 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import styles from "./MainMenu.module.css";
+import Quagga from 'quagga'; 
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import BiblioHeader from './BiblioHeader';
-import EleveScanner from './EleveScanner';
+
+class EleveScanner extends Component {
+    state = { show: false };
+    scannerStarted = true;
+
+    showModal = () => {
+      this.setState({ show: true });
+    };
+  
+    hideModal = () => {
+      this.setState({ show: false });
+    };
+  
+    componentDidMount() {
+        Quagga.init({
+            inputStream : {
+              name : "Live",
+              type : "LiveStream",
+              target: document.getElementById('elevescanner'),
+              
+              constraints: {
+                width: 640,
+                height: 480
+              }
+
+          },
+          decoder : {
+            readers : ["code_128_reader"]
+          },
+          locate: true
+        }, function(err) {
+          if (err) {
+              console.log(err);
+              return
+          }
+          console.log("Initialization finished. Ready to start");
+          
+          document.querySelector("canvas").style.display='none'
+          Quagga.start();
+          //alert()
+          
+      });
+        Quagga.onDetected(this._onDetected);
+    };
+
+    _onDetected(result) {
+
+      //Quagga.stop();
+      
+      document.getElementById('annuler').click();
+      alert(result.codeResult.code);
+
+    };
 
 
-const useStyles = makeStyles(theme => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-  title: {
-    fontSize: 60
-  },
-  mainContainer: {
+    render() {
+      return (
+        <div>
+          <Grid     
+            container
+            direction="column"
+            alignItems="center"
+            justify="center"
+            className={styles.mainContainer}>
+          
+            <Grid item>
+              <BiblioHeader></BiblioHeader>
+            </Grid>
+  
+            <Grid item className={styles.margin}> 
+              <Button size="large" onClick={this.showModal} variant="contained" color="primary" >
+                Accès Élève
+              </Button>
+            </Grid>
+            <br/>
+            <Grid item>
+              <Button size="large" href="/prof" variant="contained" color="primary" className={styles.margin}>
+                Accès Prof
+              </Button>
+            </Grid>
+
+            <Modal show={this.state.show} handleClose={this.hideModal} />
+          </Grid>
+  
+        </div>
+
+      );
+    }
   }
-}));
 
 
 
 
-export default function MainMenu() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
-
-  const handleClose = value => {
-    setOpen(false);
+const Modal = ({ handleClose, show }) => {
+    const showHideClassname = show ? (styles.modal + " " + styles.displayBlock)  : (styles.modal + " " + styles.displayNone);
+  
+    return (
+      <div id='myModal' className={showHideClassname}>
+=        <section className={styles.modalmain}>
+        Scan ta carte d'élève...
+          <div id="elevescanner" className="viewport"/>
+          <button id='annuler' onClick={handleClose}>ANNULER</button>
+        </section>
+      </div>
+    );
   };
 
 
-  return (
-      <div>
-      <Grid     
-        container
-        direction="column"
-        alignItems="center"
-        justify="center"
-        className={classes.mainContainer}>
-        
-        <Grid item>
-          <BiblioHeader></BiblioHeader>
-        </Grid>
 
-        <Grid item>
-          <Button size="large" onClick={handleClickOpen} fullWidth variant="contained" color="primary" className={classes.margin}>
-            Accès Élève
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button size="large" href="/prof" fullWidth variant="contained" color="primary" className={classes.margin}>
-            Accès Prof
-          </Button>
-        </Grid>
-    
-      </Grid>
-      <EleveScanner open={open} onClose={handleClose} />
-
-      </div>
-  );
-}
+export default EleveScanner;

@@ -11,3 +11,6 @@ html, body {
   display: flex;
 }
 
+margin {
+  margin: 10px
+}
