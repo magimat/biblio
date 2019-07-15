@@ -11,11 +11,27 @@
     display: none;
   }
 
+  .invisible {
+    display: none;
+  }
+
+  .shake {
+    float:right;
+    color: red;
+  }
+
+  .bottomModal {
+    width: 80%;
+  }
 
   .modalmain {
     font-size: 26px;
     position:fixed;
     background: white;
+    transition: background-color 0.2s linear; 
+    -moz-transition: background-color 0.2s linear;  
+    -webkit-transition: background-color 0.2s linear; 
+    -ms-transition: background-color 0.2s linear;     
     width: 100;
     height: auto;
     top:50%;
@@ -23,6 +39,11 @@
     padding: 10px;
     transform: translate(-50%,-50%);
   }
+
+  .modalmainred {
+    background: red;
+  }
+
   
   .displayBlock {
     display: block;

@@ -5,11 +5,16 @@ import Quagga from 'quagga';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import BiblioHeader from './BiblioHeader';
+import { Shake } from 'reshake'
+
 
 class EleveScanner extends Component {
-    state = { show: false };
-    scannerStarted = true;
+    state = { show: false,
+              shakeFixed: false,
+              showShake: false
+            }      
 
+            
     showModal = () => {
       this.setState({ show: true });
     };
@@ -17,7 +22,18 @@ class EleveScanner extends Component {
     hideModal = () => {
       this.setState({ show: false });
     };
-  
+
+
+    stopShake = () => {
+      this.setState({ shakeFixed: false });
+    };
+
+    startShake = () => {
+      this.setState({ shakeFixed: true, showShake: true });
+    };
+
+    
+
     componentDidMount() {
         Quagga.init({
             inputStream : {
@@ -52,19 +68,32 @@ class EleveScanner extends Component {
 
     _onDetected(result) {
 
-      Quagga.stop();
+      //Quagga.stop();
       
-      document.getElementById('annuler').click();
+
+
+
+      //document.getElementById('annuler').click();
+      
+      
+      
       //alert(result.codeResult.code);
-      fetch('https://swapi.co/api/people/1')
-            .then(res => res.json())
-            .then((data) => {
-                console.log(data)
-            })
-            .catch(console.log)
+      //fetch('https://swapi.co/api/people/1')
+      //      .then(res => res.json())
+      //      .then((data) => {
+      //          console.log(data)
+      //      })
+      //      .catch(console.log)
       //alert(result.codeResult.code);
       //Quagga.start();
+
+
+      document.getElementById('invisibleBtnStart').click();
+      setTimeout(function(){ document.getElementById('invisibleBtnStop').click() }, 1000);
+      
     };
+
+
 
 
     render() {
@@ -93,9 +122,9 @@ class EleveScanner extends Component {
               </Button>
             </Grid>
 
-            <Modal show={this.state.show} handleClose={this.hideModal} />
+            <Modal showShake={this.state.showShake} handleShakeStart={this.startShake}  handleShakeStop={this.stopShake}  show={this.state.show} handleClose={this.hideModal} fixed={this.state.shakeFixed} />
           </Grid>
-  
+
         </div>
 
       );
@@ -106,16 +135,29 @@ class EleveScanner extends Component {
 
 
 
-const Modal = ({ handleClose, show }) => {
+const Modal = ({ showShake, handleShakeStart, handleShakeStop, handleClose, show, fixed}) => {
     const showHideClassname = show ? (styles.modal + " " + styles.displayBlock)  : (styles.modal + " " + styles.displayNone);
   
+    const shakeClass = showShake ? (styles.shake) : (styles.invisible);
+  
+
+
     return (
       <div id='myModal' className={showHideClassname}>
-=        <section className={styles.modalmain}>
+        <section className={styles.modalmain}>
         Scan ta carte d'élève...
           <div id="elevescanner" className="viewport"/>
-          <button id='annuler' onClick={handleClose}>ANNULER</button>
+          <div id="bottomModal">
+            <button id='annuler' onClick={handleClose}>ANNULER</button>  
+            <Shake className={shakeClass} h={45} v={0} r={0} dur={200} int={30} max={100} fixed={fixed}>Code invalide</Shake>
+          </div>
+          <button id='invisibleBtnStart' className={styles.invisible} onClick={handleShakeStart}>invisible</button>
+          <button id='invisibleBtnStop' className={styles.invisible} onClick={handleShakeStop}>invisible</button>
+          
         </section>
+
+
+
       </div>
     );
   };
