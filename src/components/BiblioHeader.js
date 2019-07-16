@@ -18,7 +18,7 @@ export default function BiblioHeader() {
     
           <Grid container>
             <Grid item>
-              <img width="75" src="img/books.png"/>
+              <a href="/"><img width="75" src="img/books.png"/></a>
             </Grid>
             <Grid item className={classes.title}> 
                Biblio

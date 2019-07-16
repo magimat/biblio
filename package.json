@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.2.0",
+    "aws-sdk": "^2.493.0",
+    "claudia-api-builder": "^4.1.2",
+    "material-table": "^1.40.1",
     "quagga": "^0.12.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
