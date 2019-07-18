@@ -6,7 +6,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import BiblioHeader from './BiblioHeader';
 import { Shake } from 'reshake'
+import * as Constants from '../constants.js'
 
+
+var lastScannedCode = '';
 
 class EleveScanner extends Component {
     state = { show: false,
@@ -17,6 +20,7 @@ class EleveScanner extends Component {
             
     showModal = () => {
       this.setState({ show: true });
+      lastScannedCode = '';
     };
   
     hideModal = () => {
@@ -33,6 +37,11 @@ class EleveScanner extends Component {
     };
 
     
+    test = () => {
+      document.getElementById('annuler').click();
+      window.location = '/eleve?eleveid=ELEVE-0001'
+    };
+
 
     componentDidMount() {
         Quagga.init({
@@ -68,28 +77,27 @@ class EleveScanner extends Component {
 
     _onDetected(result) {
 
-      //Quagga.stop();
-      
+      if(result.codeResult.code != lastScannedCode) {
 
+        lastScannedCode = result.codeResult.code
 
+        fetch(Constants.ELEVES_API_URL + '/' + result.codeResult.code)
+              .then(res => res.json())
+              .then((data) => {
+                if(data.eleveid != null) {
+                  document.getElementById('annuler').click();
+                  window.location = '/eleve?eleveid=' + data.eleveid;
+                }
+                else {
+                  document.getElementById('invisibleBtnStart').click();
+                  setTimeout(function(){ document.getElementById('invisibleBtnStop').click() }, 1000);
 
-      //document.getElementById('annuler').click();
-      
-      
-      
-      //alert(result.codeResult.code);
-      //fetch('https://swapi.co/api/people/1')
-      //      .then(res => res.json())
-      //      .then((data) => {
-      //          console.log(data)
-      //      })
-      //      .catch(console.log)
-      //alert(result.codeResult.code);
-      //Quagga.start();
+                }
+              })
+              .catch(console.log)
 
+      }
 
-      document.getElementById('invisibleBtnStart').click();
-      setTimeout(function(){ document.getElementById('invisibleBtnStop').click() }, 1000);
       
     };
 

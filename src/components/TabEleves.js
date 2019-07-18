@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from "material-table";
-
+import * as Constants from '../constants.js'
 
 class TabEleves extends React.Component {
   constructor(props) {
@@ -14,9 +14,7 @@ class TabEleves extends React.Component {
   }
 
   componentDidMount() {
-    const apiUrl = 'https://7k0efmnyk9.execute-api.us-east-1.amazonaws.com/latest/eleves';
-
-    fetch(apiUrl)
+    fetch(Constants.ELEVES_API_URL)
       .then(res => res.json())
       .then(
         (result) => {
@@ -63,7 +61,7 @@ class TabEleves extends React.Component {
                                 data.push(newData);
                                 this.setState({ data }, () => resolve()); 
 
-                                fetch('https://7k0efmnyk9.execute-api.us-east-1.amazonaws.com/latest/eleves', {
+                                fetch(Constants.ELEVES_API_URL, {
                                   method: 'POST',
                                   headers: {
                                     'Content-Type': 'application/json'
@@ -88,7 +86,7 @@ class TabEleves extends React.Component {
                                 data[index] = newData;                
                                 this.setState({ data }, () => resolve());
 
-                                fetch('https://7k0efmnyk9.execute-api.us-east-1.amazonaws.com/latest/eleves/' + oldData.eleveid, {
+                                fetch(Constants.ELEVES_API_URL + '/' + oldData.eleveid, {
                                   method: 'POST',
                                   headers: {
                                     'Content-Type': 'application/json'
@@ -113,7 +111,7 @@ class TabEleves extends React.Component {
                                 data.splice(index, 1);
                                 this.setState({ data }, () => resolve()); 
                                 
-                                fetch('https://7k0efmnyk9.execute-api.us-east-1.amazonaws.com/latest/eleves/' + oldData.eleveid, {
+                                fetch(Constants.ELEVES_API_URL + '/' + oldData.eleveid, {
                                   method: 'DELETE',
                                 })
 

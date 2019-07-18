@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "livres-executor",
+    "name": "livres",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "5iusyoiyyb",
+    "module": "livres"
+  }
+}

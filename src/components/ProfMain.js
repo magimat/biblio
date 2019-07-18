@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import BiblioHeader from './BiblioHeader';
 import TabEleves from './TabEleves';
 import TabLivres from './TabLivres';
-import TabEmprunts from './TabEmprunts';
+import TabPrets from './TabPrets';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -57,12 +57,12 @@ export default function EleveMain() {
         <Grid item>
           <AppBar position="static">
           <Tabs value={value} onChange={handleChange}>
-            <Tab label="Emprunts" />
+            <Tab label="Prêts" />
             <Tab label="Livres" />
             <Tab label="Élèves" />
           </Tabs>
           </AppBar>
-          {value === 0 && <TabContainer><TabEmprunts/></TabContainer>}
+          {value === 0 && <TabContainer><TabPrets/></TabContainer>}
           {value === 1 && <TabContainer><TabLivres/></TabContainer>}
           {value === 2 && <TabContainer><TabEleves/></TabContainer>}
         </Grid>

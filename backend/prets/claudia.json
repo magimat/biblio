@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "prets-executor",
+    "name": "prets",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "cmf4b1v8jb",
+    "module": "prets"
+  }
+}
